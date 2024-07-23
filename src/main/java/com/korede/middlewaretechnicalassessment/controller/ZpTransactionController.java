@@ -35,7 +35,7 @@ public class ZpTransactionController {
                     content = @Content(schema = @Schema(implementation = ZpTransactionRequest.class))
             ),
             responses = {
-                    @ApiResponse(responseCode = "201", description = "Transaction created", content = @Content(schema = @Schema(implementation = ZpTransactionResponse.class))),
+                    @ApiResponse(responseCode = "200", description = "Transaction Successful", content = @Content(schema = @Schema(implementation = ZpTransactionResponse.class))),
                     @ApiResponse(responseCode = "400", description = "Invalid input")
             }
     )
@@ -43,7 +43,7 @@ public class ZpTransactionController {
             @RequestBody ZpTransactionRequest request) {
         try {
             ZpTransactionResponse response = zpTransactionService.initiateTransaction(request);
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (InsufficientFundsException | TransactionFailedException e) {
             log.error("Transaction initiation failed: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
