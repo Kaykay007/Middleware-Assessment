@@ -69,7 +69,7 @@ public class ZpTransactionController {
         }
     }
 
-    @PostMapping("/webhook")
+    @PostMapping("/webhook-Notification")
     @Operation(
             summary = "Receive webhook notification for transaction updates",
             responses = {
