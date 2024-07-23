@@ -27,36 +27,28 @@ public class ZpTransactionController {
     private final ZpTransactionService zpTransactionService;
 
     @PostMapping("/initiate")
-    public ResponseEntity<ZpTransactionResponse> initiateTransaction(@RequestBody ZpTransactionRequest request) throws InsufficientFundsException, TransactionFailedException {
-
+    @Operation(
+            summary = "Initiate a new transaction",
+            requestBody = @RequestBody(
+                    description = "Transaction Request",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = ZpTransactionRequest.class))
+            ),
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Transaction created", content = @Content(schema = @Schema(implementation = ZpTransactionResponse.class))),
+                    @ApiResponse(responseCode = "400", description = "Invalid input")
+            }
+    )
+    public ResponseEntity<ZpTransactionResponse> initiateTransaction(
+            @RequestBody ZpTransactionRequest request) {
+        try {
             ZpTransactionResponse response = zpTransactionService.initiateTransaction(request);
-            return  ResponseEntity.ok(response);
-
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (InsufficientFundsException | TransactionFailedException e) {
+            log.error("Transaction initiation failed: {}", e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
-
-//    @PostMapping("/initiate")
-//    @Operation(
-//            summary = "Initiate a new transaction",
-//            requestBody = @RequestBody(
-//                    description = "Transaction Request",
-//                    required = true,
-//                    content = @Content(schema = @Schema(implementation = ZpTransactionRequest.class))
-//            ),
-//            responses = {
-//                    @ApiResponse(responseCode = "201", description = "Transaction created", content = @Content(schema = @Schema(implementation = ZpTransactionResponse.class))),
-//                    @ApiResponse(responseCode = "400", description = "Invalid input")
-//            }
-//    )
-//    public ResponseEntity<ZpTransactionResponse> initiateTransaction(
-//            @RequestBody ZpTransactionRequest request) {
-//        try {
-//            ZpTransactionResponse response = zpTransactionService.initiateTransaction(request);
-//            return new ResponseEntity<>(response, HttpStatus.CREATED);
-//        } catch (InsufficientFundsException | TransactionFailedException e) {
-//            log.error("Transaction initiation failed: {}", e.getMessage());
-//            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-//        }
-//    }
 
     @GetMapping("/status/{transactionReference}")
     @Operation(
