@@ -3,7 +3,7 @@
 Overview
 This project is a mock RESTful API simulating a simple payment gateway middleware. The middleware facilitates transactions between a mock retail application and a banking service.
 
-##Requirements
+#Requirements
 
 The project includes the following features:
 
