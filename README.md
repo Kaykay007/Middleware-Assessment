@@ -1,9 +1,9 @@
-##Middleware Technical Assessment
+## MIDDLEWARE TECHNICAL ASSESSMENT
 
 ##Overview
 This project is a mock RESTful API simulating a simple payment gateway middleware. The middleware facilitates transactions between a mock retail application and a banking service.
 
-##Requirements
+## REQUIREMENT
 
 The project includes the following features:
 
@@ -27,6 +27,6 @@ The project includes the following features:
 - Spring Boot 3.2.6
 - MySQL
 
-##Running Tests
+## RUNNING TEST
 
 -mvn test
